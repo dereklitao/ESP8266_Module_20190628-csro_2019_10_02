@@ -60,14 +60,14 @@ static void motor_4k4r_relay_led_task(void *args)
                 }
                 printf("motor %d status %d\r\n", i, motor[i]);
             }
-            csro_set_led(i, last_state[i] == UP ? 128 : 8);
-            csro_set_led(i + 2, last_state[i] == DOWN ? 128 : 8);
+            csro_set_led(2 * i, last_state[i] == UP ? 128 : 8);
+            csro_set_led(2 * i + 1, last_state[i] == DOWN ? 128 : 8);
             csro_set_relay(2 * i, last_state[i] == UP ? true : false);
             csro_set_relay(2 * i + 1, last_state[i] == DOWN ? true : false);
             if (motor[i] != STOP)
             {
                 count_200ms[i]++;
-                if (count_200ms[i] == 50)
+                if (count_200ms[i] == 200)
                 {
                     motor[i] = STOP;
                 }
@@ -117,15 +117,15 @@ static void motor_4k4r_key_task(void *args)
             motor_state state = motor[0];
             motor[0] = (state == STOP) ? UP : STOP;
         }
-        else if (holdtime[2] == 2)
+        else if (holdtime[1] == 2)
         {
-            printf("KEY3\r\n");
+            printf("KEY2\r\n");
             motor_state state = motor[0];
             motor[0] = (state == STOP) ? DOWN : STOP;
         }
-        if (holdtime[1] == 2)
+        if (holdtime[2] == 2)
         {
-            printf("KEY2\r\n");
+            printf("KEY3\r\n");
             motor_state state = motor[1];
             motor[1] = (state == STOP) ? UP : STOP;
         }
